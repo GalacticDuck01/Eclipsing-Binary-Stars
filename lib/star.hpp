@@ -5,7 +5,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include <star_face.hpp>
 #include <star_mesh.hpp>
 
 class Star {

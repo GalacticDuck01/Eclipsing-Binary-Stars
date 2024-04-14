@@ -54,7 +54,7 @@ StarMesh::StarMesh(int recursionLevel) {
 
     //Subdivide Triangles
     for (int i = 0; i < recursionLevel; i++) {
-        std::vector<StarFace> newFaces;
+        std::vector<FaceIndices> newFaces;
         int i0, i1, i2, i3, i4, i5;
         for (auto& face : faces) {
             i0 = face.index0;
@@ -112,12 +112,12 @@ void StarMesh::ProjectToUnitSphere() {
     }
 }
 
-void StarMesh::AddTriangle(std::vector<StarFace>& facesList, int index0, int index1, int index2) {
+void StarMesh::AddTriangle(std::vector<FaceIndices>& facesList, int index0, int index1, int index2) {
     sf::Vector3f vertex0 = vertices[index0];
     sf::Vector3f vertex1 = vertices[index1];
     sf::Vector3f vertex2 = vertices[index2];
 
-    StarFace face = StarFace(index0, index1, index2);
+    FaceIndices face = FaceIndices(index0, index1, index2);
     facesList.push_back(face);
 }
 
