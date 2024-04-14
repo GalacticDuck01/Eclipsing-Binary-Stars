@@ -8,6 +8,10 @@ Star::Star(int recursionLevel) : starMesh(recursionLevel){
 Star::~Star() {
 }
 
+/*!
+    Draws the star to the screen.
+    @param window: Reference to the window.
+*/
 void Star::Draw(sf::RenderWindow& window) {
     starMesh.Draw(window, position, radius);
 }

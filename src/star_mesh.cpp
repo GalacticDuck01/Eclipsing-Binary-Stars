@@ -80,6 +80,12 @@ StarMesh::~StarMesh() {
     vertices.clear();
 }
 
+/*!
+    Draws the star mesh to the screen.
+    @param window: Reference to the window.
+    @param positionOffset: Translates all vertices by this offset.
+    @param radius: Scales the vertices.
+*/
 void StarMesh::Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float radius) {
     for (auto& face : faces) {
         sf::Vector3f translatedVertex0 = GetOffsettedPosition(positionOffset, radius, face.index0);
@@ -98,6 +104,12 @@ void StarMesh::Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float
     }
 }
 
+/*!
+    Translates and scales a vertex.
+    @param positionOffset: Translation to be applied to the vertex.
+    @param radius: Scale to be applied to the vertex.
+    @param index: Index of the desired vertex in the vertices vector.
+*/
 sf::Vector3f StarMesh::GetOffsettedPosition(sf::Vector3f positionOffset, float radius, int index) {
     return sf::Vector3f(
             positionOffset.x + radius*vertices[index].x, 
@@ -105,6 +117,9 @@ sf::Vector3f StarMesh::GetOffsettedPosition(sf::Vector3f positionOffset, float r
             positionOffset.z + radius*vertices[index].z);
 }
 
+/*!
+    Normalises all vertices in the vertices vector member, i.e. projects each vertex on to a unit sphere.
+*/
 void StarMesh::ProjectToUnitSphere() {
     for (auto& vertex : vertices) {
         float magnitude = sqrt(pow(vertex.x, 2) + pow(vertex.y, 2) + pow(vertex.z, 2));
@@ -112,6 +127,13 @@ void StarMesh::ProjectToUnitSphere() {
     }
 }
 
+/*!
+    Adds a triangle to a given vector of FaceIndices, given the indices of each desired vertex in the vertices vector.
+    @param facesList: The existing list of faces to append the triangle on to.
+    @param index0: Index of first vertex.
+    @param index1: Index of second vertex.
+    @param index2: Index of third vertex.
+*/
 void StarMesh::AddTriangle(std::vector<FaceIndices>& facesList, int index0, int index1, int index2) {
     sf::Vector3f vertex0 = vertices[index0];
     sf::Vector3f vertex1 = vertices[index1];
@@ -121,6 +143,12 @@ void StarMesh::AddTriangle(std::vector<FaceIndices>& facesList, int index0, int 
     facesList.push_back(face);
 }
 
+/*!
+    Calculates the midpoint of two pre-existing vertices and adds this midpoint to the vertices vector.
+    @param: index1 Index of the first vertex.
+    @param: index2 Index of the second vertex.
+    @returns: The index of the newly created midpoint vertex in the vertices vector.
+*/
 int StarMesh::GetMidpointOfVertices(int index1, int index2) {
     sf::Vector3f point1 = vertices[index1];
     sf::Vector3f point2 = vertices[index2];
