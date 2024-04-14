@@ -6,7 +6,7 @@ int main()
 {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Eclipsing Binary Stars", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Eclipsing Binary Stars", sf::Style::Default, settings);
 
     Simulation simulation = Simulation();
 

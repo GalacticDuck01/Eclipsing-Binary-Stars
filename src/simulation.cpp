@@ -1,7 +1,7 @@
 #include <simulation.hpp>
 
 Simulation::Simulation() {
-    Star star = Star();
+    Star star = Star(3);
     stars.push_back(star);
 }
 
