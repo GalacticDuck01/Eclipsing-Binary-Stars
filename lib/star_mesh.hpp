@@ -3,6 +3,8 @@
 #include <math.h>
 #include <SFML/Graphics.hpp>
 
+#include <utilities.hpp>
+
 /*!
     A mesh of triangles representing a star's spherical surface.
     The methods here are adapted from http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html.
@@ -12,6 +14,8 @@ class StarMesh {
         StarMesh(int recursionLevel);
         ~StarMesh();
         void Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float radius);
+        void RotateAroundXAxis(float angle);
+        void RotateAroundYAxis(float angle);
     private:
         int recursionLevel;
         int numOfVertices;

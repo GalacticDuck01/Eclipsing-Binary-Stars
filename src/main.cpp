@@ -6,7 +6,7 @@ int main()
 {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Eclipsing Binary Stars", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(700, 700), "Eclipsing Binary Stars", sf::Style::Default, settings);
 
     Simulation simulation = Simulation();
 
@@ -17,6 +17,8 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            simulation.HandleInput(event);
         }
 
         window.clear();

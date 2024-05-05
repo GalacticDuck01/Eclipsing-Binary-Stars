@@ -8,7 +8,7 @@ sf::Vector3f Utilities::DotProduct(Matrix matrix, sf::Vector3f& vector) {
     return sf::Vector3f(
         matrix.a11*v1 + matrix.a12*v2 + matrix.a13*v3,
         matrix.a21*v1 + matrix.a22*v2 + matrix.a23*v3,
-        matrix.a31*v1 + matrix.a32*v3 + matrix.a33*v3);
+        matrix.a31*v1 + matrix.a32*v2 + matrix.a33*v3);
 }
 
 /*!

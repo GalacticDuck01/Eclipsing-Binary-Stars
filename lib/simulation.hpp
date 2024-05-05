@@ -13,7 +13,7 @@ class Simulation {
         ~Simulation();
         void Draw(sf::RenderWindow& window);
         void Update();
-        void HandleInput();
+        void HandleInput(sf::Event& event);
     private:
 
 };

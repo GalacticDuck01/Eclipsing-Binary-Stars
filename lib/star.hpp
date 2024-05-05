@@ -15,6 +15,9 @@ class Star {
         Star(int recursionLevel);
         ~Star();
         void Draw(sf::RenderWindow& window);
+        void Update();
+        void RotateAroundXAxis(float angle);
+        void RotateAroundYAxis(float angle);
     private:
         StarMesh starMesh;
 };

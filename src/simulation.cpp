@@ -21,9 +21,34 @@ void Simulation::Draw(sf::RenderWindow& window) {
 }
 
 void Simulation::Update() {
-
+    for (auto& star: stars) {
+        star.Update();
+    }
 }
 
-void Simulation::HandleInput() {
+void Simulation::HandleInput(sf::Event& event) {
+    if (event.type == sf::Event::EventType::KeyPressed) {
+        float angle = 1*M_PI/180.f;
+        if (event.key.code == sf::Keyboard::Up) {
+            for (auto& star: stars) {
+                star.RotateAroundXAxis(angle);
+            }
+        }
+        else if (event.key.code == sf::Keyboard::Down) {
+            for (auto& star: stars) {
+                star.RotateAroundXAxis(-angle);
+            }
+        }
 
+        if (event.key.code == sf::Keyboard::Right) {
+            for (auto& star: stars) {
+                star.RotateAroundYAxis(angle);
+            }
+        }
+        else if (event.key.code == sf::Keyboard::Left) {
+            for (auto& star: stars) {
+                star.RotateAroundYAxis(-angle);
+            }
+        }
+    }
 }

@@ -92,16 +92,32 @@ void StarMesh::Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float
         sf::Vector3f translatedVertex1 = GetOffsettedPosition(positionOffset, radius, face.index1);
         sf::Vector3f translatedVertex2 = GetOffsettedPosition(positionOffset, radius, face.index2);
 
+        float averageZ = (translatedVertex0.z + translatedVertex1.z + translatedVertex2.z)/3.f;
+
         sf::ConvexShape shape;
         shape.setPointCount(3);
         shape.setPoint(0, sf::Vector2f(translatedVertex0.x, translatedVertex0.y));
         shape.setPoint(1, sf::Vector2f(translatedVertex1.x, translatedVertex1.y));
         shape.setPoint(2, sf::Vector2f(translatedVertex2.x, translatedVertex2.y));
-        shape.setFillColor(sf::Color(0, 0, 0));
-        shape.setOutlineColor(sf::Color(255, 255, 255));
-        shape.setOutlineThickness(-1);
+        shape.setFillColor(sf::Color(255, 69, 0, 255*averageZ/radius));
+        shape.setOutlineColor(sf::Color(255, 255, 255, 255*averageZ/radius));
+        shape.setOutlineThickness(-0.2);
         window.draw(shape);
     }
+}
+
+void StarMesh::RotateAroundXAxis(float theta) {
+    for (auto& vertex: vertices) {
+        vertex = Utilities::RotateAroundX(theta, vertex);
+    }
+    // ProjectToUnitSphere();
+}
+
+void StarMesh::RotateAroundYAxis(float phi) {
+    for (auto& vertex: vertices) {
+        vertex = Utilities::RotateAroundY(phi, vertex);
+    }
+    // ProjectToUnitSphere();
 }
 
 /*!
@@ -111,6 +127,7 @@ void StarMesh::Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float
     @param index: Index of the desired vertex in the vertices vector.
 */
 sf::Vector3f StarMesh::GetOffsettedPosition(sf::Vector3f positionOffset, float radius, int index) {
+
     return sf::Vector3f(
             positionOffset.x + radius*vertices[index].x, 
             positionOffset.y + radius*vertices[index].y, 
