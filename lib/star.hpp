@@ -11,6 +11,8 @@ class Star {
     public:
         sf::Vector3f position;
         float radius;
+        float theta;
+        float phi;
 
         Star(int recursionLevel);
         ~Star();

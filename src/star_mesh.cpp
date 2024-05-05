@@ -106,18 +106,35 @@ void StarMesh::Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float
     }
 }
 
-void StarMesh::RotateAroundXAxis(float theta) {
-    for (auto& vertex: vertices) {
-        vertex = Utilities::RotateAroundX(theta, vertex);
+void StarMesh::Update(float theta, float phi) {
+    float deltaTheta = theta - currentTheta;
+    float deltaPhi = phi - currentPhi;
+
+    std::cout << "Theta: " << deltaTheta << " Phi: " << deltaPhi << std::endl;
+
+    if (deltaTheta != 0.f) {
+        RotateAroundXAxis(deltaTheta);
+        ProjectToUnitSphere();
     }
-    // ProjectToUnitSphere();
+    if (deltaPhi != 0.f) {
+        RotateAroundYAxis(deltaPhi);
+        ProjectToUnitSphere();
+    }
+
+    currentTheta = theta;
+    currentPhi = phi;
 }
 
-void StarMesh::RotateAroundYAxis(float phi) {
+void StarMesh::RotateAroundXAxis(float deltaTheta) {
     for (auto& vertex: vertices) {
-        vertex = Utilities::RotateAroundY(phi, vertex);
+        vertex = Utilities::RotateAroundX(deltaTheta, vertex);
     }
-    // ProjectToUnitSphere();
+}
+
+void StarMesh::RotateAroundYAxis(float deltaPhi) {
+    for (auto& vertex: vertices) {
+        vertex = Utilities::RotateAroundY(deltaPhi, vertex);
+    }
 }
 
 /*!

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <math.h>
 #include <SFML/Graphics.hpp>
 
@@ -14,12 +15,15 @@ class StarMesh {
         StarMesh(int recursionLevel);
         ~StarMesh();
         void Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float radius);
+        void Update(float theta, float phi);
         void RotateAroundXAxis(float angle);
         void RotateAroundYAxis(float angle);
     private:
         int recursionLevel;
         int numOfVertices;
         std::vector<sf::Vector3f> vertices;
+        float currentTheta;
+        float currentPhi;
 
         struct FaceIndices {
             int index0;

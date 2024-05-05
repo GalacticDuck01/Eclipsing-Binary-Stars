@@ -19,6 +19,8 @@ int main()
                 window.close();
 
             simulation.HandleInput(event);
+
+            simulation.Update();
         }
 
         window.clear();
