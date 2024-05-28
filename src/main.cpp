@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <simulation.hpp>
+#include <fps_tracker.hpp>
 
 int main()
 {
@@ -9,6 +10,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(700, 700), "Eclipsing Binary Stars", sf::Style::Default, settings);
 
     Simulation simulation = Simulation();
+    FpsTracker fps = FpsTracker();
 
     while (window.isOpen())
     {
@@ -19,9 +21,10 @@ int main()
                 window.close();
 
             simulation.HandleInput(event);
-
-            simulation.Update();
         }
+
+        simulation.Update();
+        fps.Update();
 
         window.clear();
 
