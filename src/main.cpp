@@ -1,35 +1,34 @@
-#include <SFML/Graphics.hpp>
+#include <raylib.hpp>
 
 #include <simulation.hpp>
 
 int main()
 {
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(700, 700), "Eclipsing Binary Stars", sf::Style::Default, settings);
+    int screenWidth = 1080;
+    int screenHeight = 720;
+    InitWindow(screenWidth, screenHeight, "Star Simulator");
+    InitAudioDevice();
 
     Simulation simulation = Simulation();
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
+    while (!WindowShouldClose()) {
+        simulation.HandleInput();
 
-            simulation.HandleInput(event);
+        simulation.Update();
 
-            simulation.Update();
-        }
+        BeginDrawing();
 
-        window.clear();
+        ClearBackground(BLACK);
 
-        // window.draw(shape);
-        simulation.Draw(window);
+        simulation.Draw();
+        DrawText(TextFormat("FPS: %i", GetFPS()), 200, 0, 20, WHITE);
+        // DrawText(TextFormat("%0.f, %0.f", GetMousePosition().x, GetMousePosition().y), screenWidth - 200.f, 0, 20, WHITE);
 
-        window.display();
+        EndDrawing();
     }
+
+    CloseWindow();
+    CloseAudioDevice();
 
     return 0;
 }

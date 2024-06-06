@@ -1,9 +1,9 @@
 
 COMPILER = g++ -g
 
-SOURCE_LIBS = -Ilib/ -I/opt/homebrew/Cellar/sfml/2.6.1/include -L/opt/homebrew/Cellar/sfml/2.6.1/lib -lsfml-graphics -lsfml-window -lsfml-system
+SOURCE_LIBS = -Ilib/
 
-OSX_OPT = -std=c++17
+OSX_OPT = -std=c++17 -Llib/ -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL lib/libraylib.a
 
 OSX_OUT = -o "bin/build_osx"
 

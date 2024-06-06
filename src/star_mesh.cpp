@@ -1,28 +1,33 @@
 #include <star_mesh.hpp>
 
+/**
+ * Constructor for StarMesh class that generates the vertices of an icosahedron and subdivides its triangles
+ *
+ * @param recursionLevel The level of recursion for subdividing the triangles
+ *
+ * @throws None
+ */
 StarMesh::StarMesh(int recursionLevel) {
     this->recursionLevel = recursionLevel;
 
     float goldenRatio = (1.f + sqrt(5.f))/2.f;
 
     // Create the 12 vertices of the icosahedron
-    sf::Vector3f v0 = sf::Vector3f(-1.f,  goldenRatio, 0);
-    sf::Vector3f v1 = sf::Vector3f( 1.f,  goldenRatio, 0);
-    sf::Vector3f v2 = sf::Vector3f(-1.f, -goldenRatio, 0);
-    sf::Vector3f v3 = sf::Vector3f( 1.f, -goldenRatio, 0);
-    sf::Vector3f v4 = sf::Vector3f(0, -1.f,  goldenRatio);
-    sf::Vector3f v5 = sf::Vector3f(0,  1.f,  goldenRatio);
-    sf::Vector3f v6 = sf::Vector3f(0, -1.f, -goldenRatio);
-    sf::Vector3f v7 = sf::Vector3f(0,  1.f, -goldenRatio);
-    sf::Vector3f v8 =  sf::Vector3f( goldenRatio, 0.f, -1.f);
-    sf::Vector3f v9 =  sf::Vector3f( goldenRatio, 0.f,  1.f);
-    sf::Vector3f v10 = sf::Vector3f(-goldenRatio, 0.f, -1.f);
-    sf::Vector3f v11 = sf::Vector3f(-goldenRatio, 0.f,  1.f);
+    Vector3 v0 = Vector3 {-1.f,  goldenRatio,  0.f};
+    Vector3 v1 = Vector3 { 1.f,  goldenRatio,  0.f};
+    Vector3 v2 = Vector3 {-1.f, -goldenRatio, 0.f};
+    Vector3 v3 = Vector3 { 1.f, -goldenRatio, 0.f};
+    Vector3 v4 = Vector3 {0.f, -1.f,  goldenRatio};
+    Vector3 v5 = Vector3 {0.f,  1.f,  goldenRatio};
+    Vector3 v6 = Vector3 {0.f, -1.f, -goldenRatio};
+    Vector3 v7 = Vector3 {0.f,  1.f, -goldenRatio};
+    Vector3 v8 =  Vector3 {goldenRatio, 0.f, -1.f};
+    Vector3 v9 =  Vector3 {goldenRatio, 0.f,  1.f};
+    Vector3 v10 = Vector3 {-goldenRatio, 0.f, -1.f};
+    Vector3 v11 = Vector3 {-goldenRatio, 0.f,  1.f};
 
     vertices.insert(vertices.end(), {v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11});
     numOfVertices = 12;
-
-    ProjectToUnitSphere();
 
     // Add triangles around point 0
     AddTriangle(faces, 0, 11, 5);
@@ -65,14 +70,14 @@ StarMesh::StarMesh(int recursionLevel) {
             i4 = GetMidpointOfVertices(i0, i2);
             i5 = GetMidpointOfVertices(i1, i2);
 
-             AddTriangle(newFaces, i0, i3, i4);
+            AddTriangle(newFaces, i0, i3, i4);
             AddTriangle(newFaces, i4, i3, i5);
             AddTriangle(newFaces, i3, i1, i5);
             AddTriangle(newFaces, i4, i5, i2);
         }
-        ProjectToUnitSphere();
         faces = newFaces;
     }
+    ProjectToUnitSphere();
 }
 
 StarMesh::~StarMesh() {
@@ -86,31 +91,26 @@ StarMesh::~StarMesh() {
     @param positionOffset: Translates all vertices by this offset.
     @param radius: Scales the vertices.
 */
-void StarMesh::Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float radius) {
+void StarMesh::Draw(Vector3 positionOffset, float radius) {
     for (auto& face : faces) {
-        sf::Vector3f translatedVertex0 = GetOffsettedPosition(positionOffset, radius, face.index0);
-        sf::Vector3f translatedVertex1 = GetOffsettedPosition(positionOffset, radius, face.index1);
-        sf::Vector3f translatedVertex2 = GetOffsettedPosition(positionOffset, radius, face.index2);
+        Vector3 v1 = GetOffsettedPosition(positionOffset, radius, face.index0);
+        Vector3 v2 = GetOffsettedPosition(positionOffset, radius, face.index1);
+        Vector3 v3 = GetOffsettedPosition(positionOffset, radius, face.index2);
 
-        float averageZ = (translatedVertex0.z + translatedVertex1.z + translatedVertex2.z)/3.f;
+        float averageZ = (v1.z + v2.z + v3.z)/3.f;
 
-        sf::ConvexShape shape;
-        shape.setPointCount(3);
-        shape.setPoint(0, sf::Vector2f(translatedVertex0.x, translatedVertex0.y));
-        shape.setPoint(1, sf::Vector2f(translatedVertex1.x, translatedVertex1.y));
-        shape.setPoint(2, sf::Vector2f(translatedVertex2.x, translatedVertex2.y));
-        shape.setFillColor(sf::Color(255, 69, 0, 255*averageZ/radius));
-        shape.setOutlineColor(sf::Color(255, 255, 255, 255*averageZ/radius));
-        shape.setOutlineThickness(-0.2);
-        window.draw(shape);
+        if (averageZ > 0.f) {
+            Color colour = BLUE;
+            colour.a = 255*averageZ/radius;
+
+            DrawTriangle((Vector2){v3.x, v3.y}, (Vector2){v2.x, v2.y}, (Vector2){v1.x, v1.y}, colour);
+        }
     }
 }
 
 void StarMesh::Update(float theta, float phi) {
     float deltaTheta = theta - currentTheta;
     float deltaPhi = phi - currentPhi;
-
-    std::cout << "Theta: " << deltaTheta << " Phi: " << deltaPhi << std::endl;
 
     if (deltaTheta != 0.f) {
         RotateAroundXAxis(deltaTheta);
@@ -143,12 +143,12 @@ void StarMesh::RotateAroundYAxis(float deltaPhi) {
     @param radius: Scale to be applied to the vertex.
     @param index: Index of the desired vertex in the vertices vector.
 */
-sf::Vector3f StarMesh::GetOffsettedPosition(sf::Vector3f positionOffset, float radius, int index) {
+Vector3 StarMesh::GetOffsettedPosition(Vector3 positionOffset, float radius, int index) {
 
-    return sf::Vector3f(
+    return Vector3{
             positionOffset.x + radius*vertices[index].x, 
             positionOffset.y + radius*vertices[index].y, 
-            positionOffset.z + radius*vertices[index].z);
+            positionOffset.z + radius*vertices[index].z};
 }
 
 /*!
@@ -156,8 +156,7 @@ sf::Vector3f StarMesh::GetOffsettedPosition(sf::Vector3f positionOffset, float r
 */
 void StarMesh::ProjectToUnitSphere() {
     for (auto& vertex : vertices) {
-        float magnitude = sqrt(pow(vertex.x, 2) + pow(vertex.y, 2) + pow(vertex.z, 2));
-        vertex /= magnitude;
+        vertex = Vector3Normalize(vertex);
     }
 }
 
@@ -169,9 +168,9 @@ void StarMesh::ProjectToUnitSphere() {
     @param index2: Index of third vertex.
 */
 void StarMesh::AddTriangle(std::vector<FaceIndices>& facesList, int index0, int index1, int index2) {
-    sf::Vector3f vertex0 = vertices[index0];
-    sf::Vector3f vertex1 = vertices[index1];
-    sf::Vector3f vertex2 = vertices[index2];
+    Vector3 vertex0 = vertices[index0];
+    Vector3 vertex1 = vertices[index1];
+    Vector3 vertex2 = vertices[index2];
 
     FaceIndices face = FaceIndices(index0, index1, index2);
     facesList.push_back(face);
@@ -184,13 +183,13 @@ void StarMesh::AddTriangle(std::vector<FaceIndices>& facesList, int index0, int 
     @returns: The index of the newly created midpoint vertex in the vertices vector.
 */
 int StarMesh::GetMidpointOfVertices(int index1, int index2) {
-    sf::Vector3f point1 = vertices[index1];
-    sf::Vector3f point2 = vertices[index2];
+    Vector3 point2 = vertices[index2];
+    Vector3 point1 = vertices[index1];
 
-    sf::Vector3f middlePoint = sf::Vector3f(
+    Vector3 middlePoint = Vector3 {
         (point1.x + point2.x)/2.f,
         (point1.y + point2.y)/2.f,
-        (point1.z + point2.z)/2.f);
+        (point1.z + point2.z)/2.f};
 
     vertices.push_back(middlePoint);
     numOfVertices++;

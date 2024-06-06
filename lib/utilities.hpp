@@ -1,12 +1,12 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <raylib.hpp>
 #include <math.h>
 
 class Utilities {
     public:
-        static sf::Vector3f RotateAroundY(float angle, sf::Vector3f& vector);
-        static sf::Vector3f RotateAroundX(float angle, sf::Vector3f& vector);
+        static Vector3 RotateAroundY(float angle, Vector3& vector);
+        static Vector3 RotateAroundX(float angle, Vector3& vector);
     private:
         struct Matrix {
             float a11; float a12; float a13;
@@ -26,6 +26,6 @@ class Utilities {
             }
         };
 
-        static sf::Vector3f DotProduct(Matrix matrix, sf::Vector3f& vector);
+        static Vector3 DotProduct(Matrix matrix, Vector3& vector);
     
 };

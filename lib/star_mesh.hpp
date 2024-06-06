@@ -1,8 +1,10 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <math.h>
-#include <SFML/Graphics.hpp>
+#include <raylib.hpp>
+#include <raymath.hpp>
 
 #include <utilities.hpp>
 
@@ -14,14 +16,14 @@ class StarMesh {
     public:
         StarMesh(int recursionLevel);
         ~StarMesh();
-        void Draw(sf::RenderWindow& window, sf::Vector3f positionOffset, float radius);
+        void Draw(Vector3 positionOffset, float radius);
         void Update(float theta, float phi);
         void RotateAroundXAxis(float angle);
         void RotateAroundYAxis(float angle);
     private:
         int recursionLevel;
         int numOfVertices;
-        std::vector<sf::Vector3f> vertices;
+        std::vector<Vector3> vertices;
         float currentTheta;
         float currentPhi;
 
@@ -42,6 +44,6 @@ class StarMesh {
         void ProjectToUnitSphere();
         void AddTriangle(std::vector<FaceIndices>& facesList, int index0, int index1, int index2);
         int GetMidpointOfVertices(int index1, int index2);
-        sf::Vector3f GetOffsettedPosition(sf::Vector3f positionOffset, float radius, int index);
+        Vector3 GetOffsettedPosition(Vector3 positionOffset, float radius, int index);
 
 };

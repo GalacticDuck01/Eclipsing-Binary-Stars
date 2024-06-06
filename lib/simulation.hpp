@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdio.h>
-#include <SFML/Graphics.hpp>
+#include <raylib.hpp>
 
 #include <star.hpp>
 
@@ -11,9 +11,9 @@ class Simulation {
 
         Simulation();
         ~Simulation();
-        void Draw(sf::RenderWindow& window);
+        void Draw();
         void Update();
-        void HandleInput(sf::Event& event);
+        void HandleInput();
     private:
 
 };
