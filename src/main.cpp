@@ -1,7 +1,6 @@
 #include <raylib.hpp>
 
 #include <simulation.hpp>
-#include <fps_tracker.hpp>
 
 int main()
 {
@@ -11,7 +10,6 @@ int main()
     InitAudioDevice();
 
     Simulation simulation = Simulation();
-    FpsTracker fps = FpsTracker();
 
     while (!WindowShouldClose()) {
         simulation.HandleInput();
