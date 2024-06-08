@@ -14,13 +14,13 @@ int main()
     while (!WindowShouldClose()) {
         simulation.HandleInput();
 
-        simulation.Update();
+        simulation.Update(GetFrameTime());
 
         BeginDrawing();
 
         ClearBackground(BLACK);
 
-        simulation.Draw();
+        simulation.Draw(Vector2{(float)screenWidth/2, (float)screenHeight/2});
         DrawText(TextFormat("FPS: %i", GetFPS()), 200, 0, 20, WHITE);
         // DrawText(TextFormat("%0.f, %0.f", GetMousePosition().x, GetMousePosition().y), screenWidth - 200.f, 0, 20, WHITE);
 

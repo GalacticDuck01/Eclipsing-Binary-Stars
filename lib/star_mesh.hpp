@@ -14,7 +14,7 @@
 */
 class StarMesh {
     public:
-        StarMesh(int recursionLevel);
+        StarMesh(int recursionLevel, Color colour);
         ~StarMesh();
         void Draw(Vector3 positionOffset, float radius);
         void Update(float theta, float phi);
@@ -22,6 +22,7 @@ class StarMesh {
         void RotateAroundYAxis(float angle);
     private:
         int recursionLevel;
+        Color colour;
         int numOfVertices;
         std::vector<Vector3> vertices;
         float currentTheta;

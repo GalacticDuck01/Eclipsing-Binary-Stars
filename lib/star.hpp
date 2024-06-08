@@ -6,18 +6,24 @@
 #include <raylib.hpp>
 
 #include <star_mesh.hpp>
+#include <physics.hpp>
 
 class Star {
     public:
         Vector3 position;
+        float mass;
         float radius;
+        float semiMajorAxis;
+        float systemTheta;
+        float systemPhi;
         float theta;
         float phi;
+        Color colour;
 
-        Star(int recursionLevel);
+        Star(Vector3 position, float mass, float radius, float semiMajorAxis, int recursionLevel, Color colour);
         ~Star();
-        void Draw();
-        void Update();
+        void Draw(Vector2 originPosition);
+        void Update(Vector3 newPosition);
         void RotateAroundXAxis(float angle);
         void RotateAroundYAxis(float angle);
     private:

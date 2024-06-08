@@ -4,6 +4,7 @@
 #include <raylib.hpp>
 
 #include <star.hpp>
+#include <physics.hpp>
 
 class Simulation {
     public:
@@ -11,9 +12,11 @@ class Simulation {
 
         Simulation();
         ~Simulation();
-        void Draw();
-        void Update();
+        void Draw(Vector2 originPosition);
+        void Update(float deltaTime);
         void HandleInput();
     private:
-
+        float eccentricity;
+        float totalSeparation;
+        float orbitalPeriod;
 };

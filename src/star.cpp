@@ -1,10 +1,15 @@
 #include <star.hpp>
 
-Star::Star(int recursionLevel) : starMesh(recursionLevel){
-    position = {350.f, 350.f, 0.f};
-    radius = 300;
-    theta = 0.f;
-    phi = 0.f;
+Star::Star(Vector3 position, float mass, float radius, float semiMajorAxis, int recursionLevel, Color colour) : starMesh(recursionLevel, colour){
+    this->mass = mass;
+    this->position = position;
+    this->radius = radius;
+    this->semiMajorAxis = semiMajorAxis;
+    this->systemTheta = 0.f;
+    this->theta = 0.f;
+    this->phi = 0.f;
+
+    this->colour = colour;
 }
 
 Star::~Star() {
@@ -14,11 +19,12 @@ Star::~Star() {
     Draws the star to the screen.
     @param window: Reference to the window.
 */
-void Star::Draw() {
-    starMesh.Draw(position, radius);
+void Star::Draw(Vector2 originPosition) {
+    starMesh.Draw(Vector3{position.x + originPosition.x, position.y + originPosition.y, 0.f}, radius);
 }
 
-void Star::Update() {
+void Star::Update(Vector3 newPositon) {
+    position = newPositon;
     starMesh.Update(theta, phi);
 }
 

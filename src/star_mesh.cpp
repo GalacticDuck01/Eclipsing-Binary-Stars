@@ -7,8 +7,9 @@
  *
  * @throws None
  */
-StarMesh::StarMesh(int recursionLevel) {
+StarMesh::StarMesh(int recursionLevel, Color colour) {
     this->recursionLevel = recursionLevel;
+    this->colour = colour;
 
     float goldenRatio = (1.f + sqrt(5.f))/2.f;
 
@@ -100,9 +101,7 @@ void StarMesh::Draw(Vector3 positionOffset, float radius) {
         float averageZ = (v1.z + v2.z + v3.z)/3.f;
 
         if (averageZ > 0.f) {
-            Color colour = BLUE;
             colour.a = 255*averageZ/radius;
-
             DrawTriangle((Vector2){v3.x, v3.y}, (Vector2){v2.x, v2.y}, (Vector2){v1.x, v1.y}, colour);
         }
     }
