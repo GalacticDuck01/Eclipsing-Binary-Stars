@@ -88,7 +88,6 @@ StarMesh::~StarMesh() {
 
 /*!
     Draws the star mesh to the screen.
-    @param window: Reference to the window.
     @param positionOffset: Translates all vertices by this offset.
     @param radius: Scales the vertices.
 */
@@ -107,6 +106,18 @@ void StarMesh::Draw(Vector3 positionOffset, float radius) {
     }
 }
 
+/*!
+    Updates the star mesh by rotating by given theta and phi angles.
+    @param theta: Rotation around the star's x axis.
+    @param phi: Rotation around the star's y axis.
+
+    @throws None
+
+    @returns void
+
+    @see Utilities::RotateAroundX
+    @see Utilities::RotateAroundY
+*/
 void StarMesh::Update(float theta, float phi) {
     float deltaTheta = theta - currentTheta;
     float deltaPhi = phi - currentPhi;

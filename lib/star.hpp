@@ -14,8 +14,7 @@ class Star {
         float mass;
         float radius;
         float semiMajorAxis;
-        float systemTheta;
-        float systemPhi;
+        float trueAnomaly;
         float theta;
         float phi;
         Color colour;

@@ -43,8 +43,8 @@ void Simulation::Update(float deltaTime) {
     Vector3 newPos;
     for (auto& star: stars) {
         deltaTheta = Physics::GetDeltaTheta(orbitalPeriod, star.semiMajorAxis, star.position, eccentricity, deltaTime);
-        star.systemTheta += 10.f * deltaTheta;
-        newPos = Physics::GetPosition(star.semiMajorAxis, eccentricity, star.systemTheta);
+        star.trueAnomaly += 10.f * deltaTheta;
+        newPos = Physics::GetPosition(star.semiMajorAxis, eccentricity, star.trueAnomaly);
         star.Update(newPos);
     }
 }

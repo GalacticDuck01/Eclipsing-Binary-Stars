@@ -5,7 +5,7 @@ Star::Star(Vector3 position, float mass, float radius, float semiMajorAxis, int 
     this->position = position;
     this->radius = radius;
     this->semiMajorAxis = semiMajorAxis;
-    this->systemTheta = 0.f;
+    this->trueAnomaly = 0.f;
     this->theta = 0.f;
     this->phi = 0.f;
 
@@ -23,6 +23,17 @@ void Star::Draw(Vector2 originPosition) {
     starMesh.Draw(Vector3{position.x + originPosition.x, position.y + originPosition.y, 0.f}, radius);
 }
 
+/*!
+    Updates the position of the star and updates the star mesh based on the current theta and phi values.
+
+    @param newPositon The new position of the star.
+
+    @throws None
+
+    @returns void
+
+    @see StarMesh::Update
+ */
 void Star::Update(Vector3 newPositon) {
     position = newPositon;
     starMesh.Update(theta, phi);
