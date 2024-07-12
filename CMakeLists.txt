@@ -14,11 +14,6 @@ add_subdirectory(src)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBS})
 
-enable_testing()
-find_package(GTest REQUIRED)
-include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME})
-
 #######################
 # Raylib
 #######################
