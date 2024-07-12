@@ -2,9 +2,9 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "Build OSX",
-            "command": "make build_osx",
-            "options": {"cwd": "${workspaceFolder}"},
+            "label": "Make",
+            "command": "make",
+            "options": {"cwd": "${workspaceFolder}/build"},
         }
     ],
     "version": "2.0.0"

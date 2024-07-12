@@ -5,17 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "g++ - Build Project",
+            "name": "Run EclipsingBinaryStars",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/build_osx",
+            "program": "${workspaceFolder}/build/EclipsingBinaryStars",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "Build OSX"
+            "preLaunchTask": "Make",
         }
     ]
 }
