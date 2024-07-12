@@ -6,7 +6,7 @@
 #include <raylib.hpp>
 #include <raymath.hpp>
 
-#include <utilities.hpp>
+#include <maths/linear_algebra.hpp>
 
 /*!
     A mesh of triangles representing a star's spherical surface.

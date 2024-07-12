@@ -1,6 +1,6 @@
-#include <utilities.hpp>
+#include <maths/linear_algebra.hpp>
 
-Vector3 Utilities::DotProduct(Matrix matrix, Vector3& vector) {
+Vector3 LinearAlgebra::DotProduct(Matrix matrix, Vector3& vector) {
     float v1 = vector.x;
     float v2 = vector.y;
     float v3 = vector.z;
@@ -17,7 +17,7 @@ Vector3 Utilities::DotProduct(Matrix matrix, Vector3& vector) {
     @param vector: Vector to perform the rotation on
     @return Rotated vector
 */
-Vector3 Utilities::RotateAroundY(float angle, Vector3& vector) {
+Vector3 LinearAlgebra::RotateAroundY(float angle, Vector3& vector) {
     Matrix rotationMatrix = Matrix(
         cos(angle),     0,      sin(angle),
         0,              1,      0,
@@ -32,7 +32,7 @@ Vector3 Utilities::RotateAroundY(float angle, Vector3& vector) {
     @param vector: Vector to perform the rotation on
     @return Rotated vector
 */
-Vector3 Utilities::RotateAroundX(float angle, Vector3& vector) {
+Vector3 LinearAlgebra::RotateAroundX(float angle, Vector3& vector) {
     Matrix rotationMatrix = Matrix(
         1,  0,          0,
         0,  cos(angle), -sin(angle),

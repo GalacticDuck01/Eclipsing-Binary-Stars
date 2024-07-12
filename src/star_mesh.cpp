@@ -115,8 +115,8 @@ void StarMesh::Draw(Vector3 positionOffset, float radius) {
 
     @returns void
 
-    @see Utilities::RotateAroundX
-    @see Utilities::RotateAroundY
+    @see LinearAlgebra::RotateAroundX
+    @see LinearAlgebra::RotateAroundY
 */
 void StarMesh::Update(float theta, float phi) {
     float deltaTheta = theta - currentTheta;
@@ -137,13 +137,13 @@ void StarMesh::Update(float theta, float phi) {
 
 void StarMesh::RotateAroundXAxis(float deltaTheta) {
     for (auto& vertex: vertices) {
-        vertex = Utilities::RotateAroundX(deltaTheta, vertex);
+        vertex = LinearAlgebra::RotateAroundX(deltaTheta, vertex);
     }
 }
 
 void StarMesh::RotateAroundYAxis(float deltaPhi) {
     for (auto& vertex: vertices) {
-        vertex = Utilities::RotateAroundY(deltaPhi, vertex);
+        vertex = LinearAlgebra::RotateAroundY(deltaPhi, vertex);
     }
 }
 

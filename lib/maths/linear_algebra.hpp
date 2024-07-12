@@ -3,7 +3,7 @@
 #include <raylib.hpp>
 #include <math.h>
 
-class Utilities {
+class LinearAlgebra {
     public:
         static Vector3 RotateAroundY(float angle, Vector3& vector);
         static Vector3 RotateAroundX(float angle, Vector3& vector);
