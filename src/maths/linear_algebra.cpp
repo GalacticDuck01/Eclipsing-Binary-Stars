@@ -1,11 +1,11 @@
 #include <maths/linear_algebra.hpp>
 
-Vector3 LinearAlgebra::DotProduct(Matrix matrix, Vector3& vector) {
+sf::Vector3f LinearAlgebra::DotProduct(Matrix matrix, sf::Vector3f& vector) {
     float v1 = vector.x;
     float v2 = vector.y;
     float v3 = vector.z;
 
-    return Vector3{
+    return sf::Vector3f{
         matrix.a11*v1 + matrix.a12*v2 + matrix.a13*v3,
         matrix.a21*v1 + matrix.a22*v2 + matrix.a23*v3,
         matrix.a31*v1 + matrix.a32*v2 + matrix.a33*v3};
@@ -17,7 +17,7 @@ Vector3 LinearAlgebra::DotProduct(Matrix matrix, Vector3& vector) {
     @param vector: Vector to perform the rotation on
     @return Rotated vector
 */
-Vector3 LinearAlgebra::RotateAroundY(float angle, Vector3& vector) {
+sf::Vector3f LinearAlgebra::RotateAroundY(float angle, sf::Vector3f& vector) {
     Matrix rotationMatrix = Matrix(
         cos(angle),     0,      sin(angle),
         0,              1,      0,
@@ -32,7 +32,7 @@ Vector3 LinearAlgebra::RotateAroundY(float angle, Vector3& vector) {
     @param vector: Vector to perform the rotation on
     @return Rotated vector
 */
-Vector3 LinearAlgebra::RotateAroundX(float angle, Vector3& vector) {
+sf::Vector3f LinearAlgebra::RotateAroundX(float angle, sf::Vector3f& vector) {
     Matrix rotationMatrix = Matrix(
         1,  0,          0,
         0,  cos(angle), -sin(angle),

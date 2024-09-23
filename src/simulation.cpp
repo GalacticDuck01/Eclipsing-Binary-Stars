@@ -14,13 +14,13 @@ Simulation::Simulation() {
     float semiMajorAxis1 = (totalSeparation*MASS_2)/MASS_SUM;
     float semiMajorAxis2 = (totalSeparation*MASS_1)/MASS_SUM;
 
-    Vector3 initPosStar1 = Physics::GetPosition(semiMajorAxis1, eccentricity, 0.f);
-    Vector3 initPosStar2 = Physics::GetPosition(semiMajorAxis2, eccentricity, 0.f);
+    sf::Vector3f initPosStar1 = Physics::GetPosition(semiMajorAxis1, eccentricity, 0.f);
+    sf::Vector3f initPosStar2 = Physics::GetPosition(semiMajorAxis2, eccentricity, 0.f);
 
-    Star star1(initPosStar1, MASS_1, RADIUS_1, semiMajorAxis1, 4, RED);
+    Star star1(initPosStar1, MASS_1, RADIUS_1, semiMajorAxis1, 4, sf::Color::Red);
     stars.push_back(star1);
 
-    Star star2(initPosStar2, MASS_2, RADIUS_2, -semiMajorAxis2, 2, BLUE);
+    Star star2(initPosStar2, MASS_2, RADIUS_2, -semiMajorAxis2, 2, sf::Color::Blue);
     stars.push_back(star2);
 }
 
@@ -32,7 +32,7 @@ Simulation::~Simulation() {
     Draws the simulation to the screen.
     @param window: Reference to the window.
 */
-void Simulation::Draw(Vector2 originPosition) {
+void Simulation::Draw(sf::Vector2f originPosition) {
     for (auto& star: stars) {
         star.Draw(originPosition);
     }
@@ -40,7 +40,7 @@ void Simulation::Draw(Vector2 originPosition) {
 
 void Simulation::Update(float deltaTime) {
     float deltaTheta = 0.f;
-    Vector3 newPos;
+    sf::Vector3f newPos;
     for (auto& star: stars) {
         deltaTheta = Physics::GetDeltaTheta(orbitalPeriod, star.semiMajorAxis, star.position, eccentricity, deltaTime);
         star.trueAnomaly += 10.f * deltaTheta;
@@ -54,16 +54,16 @@ void Simulation::HandleInput() {
 
     float angleX = 0.f;
     float angleY = 0.f;
-    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
         angleY += angle;
     }
-    else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
         angleY -= angle;
     }
-    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
         angleX -= angle;
     }
-    else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
         angleX += angle;
     }
 

@@ -1,15 +1,14 @@
 #pragma once
 
 #include <math.h>
-#include <raylib.hpp>
-#include <raymath.hpp>
+#include <SFML/System/Vector3.hpp>
 
 class Physics {
     public:
         Physics();
         ~Physics();
 
-        static Vector3 GetPosition(float a, float e, float theta);
+        static sf::Vector3f GetPosition(float a, float e, float theta);
         static float GetOrbitalPeriod(float a, float m1, float m2);
-        static float GetDeltaTheta(float P, float a, Vector3 r, float e, float dt);
+        static float GetDeltaTheta(float P, float a, sf::Vector3f r, float e, float dt);
 };

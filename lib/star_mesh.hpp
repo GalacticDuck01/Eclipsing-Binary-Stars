@@ -3,10 +3,11 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include <raylib.hpp>
-#include <raymath.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector3.hpp>
 
 #include <maths/linear_algebra.hpp>
+#include <renderer/renderer.hpp>
 
 /*!
     A mesh of triangles representing a star's spherical surface.
@@ -14,17 +15,17 @@
 */
 class StarMesh {
     public:
-        StarMesh(int recursionLevel, Color colour);
+        StarMesh(int recursionLevel, sf::Color colour);
         ~StarMesh();
-        void Draw(Vector3 positionOffset, float radius);
+        void Draw(sf::Vector3f positionOffset, float radius);
         void Update(float theta, float phi);
         void RotateAroundXAxis(float angle);
         void RotateAroundYAxis(float angle);
     private:
         int recursionLevel;
-        Color colour;
+        sf::Color colour;
         int numOfVertices;
-        std::vector<Vector3> vertices;
+        std::vector<sf::Vector3f> vertices;
         float currentTheta;
         float currentPhi;
 
@@ -45,6 +46,6 @@ class StarMesh {
         void ProjectToUnitSphere();
         void AddTriangle(std::vector<FaceIndices>& facesList, int index0, int index1, int index2);
         int GetMidpointOfVertices(int index1, int index2);
-        Vector3 GetOffsettedPosition(Vector3 positionOffset, float radius, int index);
+        sf::Vector3f GetOffsettedPosition(sf::Vector3f positionOffset, float radius, int index);
 
 };
