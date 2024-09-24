@@ -3,26 +3,28 @@
 #include <stdio.h>
 #include <math.h>
 #include <iostream>
-#include <raylib.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/System/Vector3.hpp>
 
 #include <star_mesh.hpp>
 #include <physics.hpp>
 
 class Star {
     public:
-        Vector3 position;
+        sf::Vector3f position;
         float mass;
         float radius;
         float semiMajorAxis;
         float trueAnomaly;
         float theta;
         float phi;
-        Color colour;
+        sf::Color colour;
 
-        Star(Vector3 position, float mass, float radius, float semiMajorAxis, int recursionLevel, Color colour);
+        Star(sf::Vector3f position, float mass, float radius, float semiMajorAxis, int recursionLevel, sf::Color colour);
         ~Star();
-        void Draw(Vector2 originPosition);
-        void Update(Vector3 newPosition);
+        void Draw(sf::Vector2f originPosition);
+        void Update(sf::Vector3f newPosition);
         void RotateAroundXAxis(float angle);
         void RotateAroundYAxis(float angle);
     private:

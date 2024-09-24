@@ -12,11 +12,11 @@ Physics::~Physics() {}
 
     @return Position of the object.
 */
-Vector3 Physics::GetPosition(float a, float e, float trueAnomaly) {
+sf::Vector3f Physics::GetPosition(float a, float e, float trueAnomaly) {
     float r = a*(1 - pow(e, 2)) / (1 + e*cos(trueAnomaly));
     float x = r*cos(trueAnomaly);
     float y = r*sin(trueAnomaly);
-    return Vector3{x, y, 0};
+    return sf::Vector3f{x, y, 0};
 }
 
 /*!
@@ -44,7 +44,7 @@ float Physics::GetOrbitalPeriod(float a, float m1, float m2) {
 
     @return Change in theta.
 */
-float Physics::GetDeltaTheta(float P, float a, Vector3 r, float e, float dt) {
+float Physics::GetDeltaTheta(float P, float a, sf::Vector3f r, float e, float dt) {
     float rMag = sqrt(pow(r.x, 2) + pow(r.y, 2) + pow(r.z, 2));
     return 2*M_PI/P*pow(a/rMag, 2)*sqrt(1-pow(e, 2))*dt;
 }

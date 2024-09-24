@@ -7,25 +7,25 @@
  *
  * @throws None
  */
-StarMesh::StarMesh(int recursionLevel, Color colour) {
+StarMesh::StarMesh(int recursionLevel, sf::Color colour) {
     this->recursionLevel = recursionLevel;
     this->colour = colour;
 
     float goldenRatio = (1.f + sqrt(5.f))/2.f;
 
     // Create the 12 vertices of the icosahedron
-    Vector3 v0 = Vector3 {-1.f,  goldenRatio,  0.f};
-    Vector3 v1 = Vector3 { 1.f,  goldenRatio,  0.f};
-    Vector3 v2 = Vector3 {-1.f, -goldenRatio, 0.f};
-    Vector3 v3 = Vector3 { 1.f, -goldenRatio, 0.f};
-    Vector3 v4 = Vector3 {0.f, -1.f,  goldenRatio};
-    Vector3 v5 = Vector3 {0.f,  1.f,  goldenRatio};
-    Vector3 v6 = Vector3 {0.f, -1.f, -goldenRatio};
-    Vector3 v7 = Vector3 {0.f,  1.f, -goldenRatio};
-    Vector3 v8 =  Vector3 {goldenRatio, 0.f, -1.f};
-    Vector3 v9 =  Vector3 {goldenRatio, 0.f,  1.f};
-    Vector3 v10 = Vector3 {-goldenRatio, 0.f, -1.f};
-    Vector3 v11 = Vector3 {-goldenRatio, 0.f,  1.f};
+    auto v0 = sf::Vector3f {-1.f,  goldenRatio,  0.f};
+    auto v1 = sf::Vector3f { 1.f,  goldenRatio,  0.f};
+    auto v2 = sf::Vector3f {-1.f, -goldenRatio, 0.f};
+    auto v3 = sf::Vector3f { 1.f, -goldenRatio, 0.f};
+    auto v4 = sf::Vector3f {0.f, -1.f,  goldenRatio};
+    auto v5 = sf::Vector3f {0.f,  1.f,  goldenRatio};
+    auto v6 = sf::Vector3f {0.f, -1.f, -goldenRatio};
+    auto v7 = sf::Vector3f {0.f,  1.f, -goldenRatio};
+    auto v8 =  sf::Vector3f {goldenRatio, 0.f, -1.f};
+    auto v9 =  sf::Vector3f {goldenRatio, 0.f,  1.f};
+    auto v10 = sf::Vector3f {-goldenRatio, 0.f, -1.f};
+    auto v11 = sf::Vector3f {-goldenRatio, 0.f,  1.f};
 
     vertices.insert(vertices.end(), {v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11});
     numOfVertices = 12;
@@ -91,17 +91,23 @@ StarMesh::~StarMesh() {
     @param positionOffset: Translates all vertices by this offset.
     @param radius: Scales the vertices.
 */
-void StarMesh::Draw(Vector3 positionOffset, float radius) {
+void StarMesh::Draw(sf::Vector3f positionOffset, float radius) {
     for (auto& face : faces) {
-        Vector3 v1 = GetOffsettedPosition(positionOffset, radius, face.index0);
-        Vector3 v2 = GetOffsettedPosition(positionOffset, radius, face.index1);
-        Vector3 v3 = GetOffsettedPosition(positionOffset, radius, face.index2);
+        sf::Vector3f v1 = GetOffsettedPosition(positionOffset, radius, face.index0);
+        sf::Vector3f v2 = GetOffsettedPosition(positionOffset, radius, face.index1);
+        sf::Vector3f v3 = GetOffsettedPosition(positionOffset, radius, face.index2);
 
         float averageZ = (v1.z + v2.z + v3.z)/3.f;
 
         if (averageZ > 0.f) {
             colour.a = 255*averageZ/radius;
-            DrawTriangle((Vector2){v3.x, v3.y}, (Vector2){v2.x, v2.y}, (Vector2){v1.x, v1.y}, colour);
+            sf::VertexArray triangle = sf::VertexArray(sf::Triangles, 3);
+            triangle[0].position = sf::Vector2f(v1.x, v1.y);
+            triangle[1].position = sf::Vector2f(v2.x, v2.y);
+            triangle[2].position = sf::Vector2f(v3.x, v3.y);
+            triangle[0].color = triangle[1].color = triangle[2].color = colour;
+
+            Renderer::GetRenderer().AddVertexArray(triangle);
         }
     }
 }
@@ -153,9 +159,9 @@ void StarMesh::RotateAroundYAxis(float deltaPhi) {
     @param radius: Scale to be applied to the vertex.
     @param index: Index of the desired vertex in the vertices vector.
 */
-Vector3 StarMesh::GetOffsettedPosition(Vector3 positionOffset, float radius, int index) {
+sf::Vector3f StarMesh::GetOffsettedPosition(sf::Vector3f positionOffset, float radius, int index) {
 
-    return Vector3{
+    return sf::Vector3f{
             positionOffset.x + radius*vertices[index].x, 
             positionOffset.y + radius*vertices[index].y, 
             positionOffset.z + radius*vertices[index].z};
@@ -166,7 +172,7 @@ Vector3 StarMesh::GetOffsettedPosition(Vector3 positionOffset, float radius, int
 */
 void StarMesh::ProjectToUnitSphere() {
     for (auto& vertex : vertices) {
-        vertex = Vector3Normalize(vertex);
+        vertex = LinearAlgebra::Normalise(vertex);
     }
 }
 
@@ -178,9 +184,9 @@ void StarMesh::ProjectToUnitSphere() {
     @param index2: Index of third vertex.
 */
 void StarMesh::AddTriangle(std::vector<FaceIndices>& facesList, int index0, int index1, int index2) {
-    Vector3 vertex0 = vertices[index0];
-    Vector3 vertex1 = vertices[index1];
-    Vector3 vertex2 = vertices[index2];
+    sf::Vector3f vertex0 = vertices[index0];
+    sf::Vector3f vertex1 = vertices[index1];
+    sf::Vector3f vertex2 = vertices[index2];
 
     FaceIndices face = FaceIndices(index0, index1, index2);
     facesList.push_back(face);
@@ -193,10 +199,10 @@ void StarMesh::AddTriangle(std::vector<FaceIndices>& facesList, int index0, int 
     @returns: The index of the newly created midpoint vertex in the vertices vector.
 */
 int StarMesh::GetMidpointOfVertices(int index1, int index2) {
-    Vector3 point2 = vertices[index2];
-    Vector3 point1 = vertices[index1];
+    sf::Vector3f point2 = vertices[index2];
+    sf::Vector3f point1 = vertices[index1];
 
-    Vector3 middlePoint = Vector3 {
+    sf::Vector3f middlePoint = sf::Vector3f {
         (point1.x + point2.x)/2.f,
         (point1.y + point2.y)/2.f,
         (point1.z + point2.z)/2.f};

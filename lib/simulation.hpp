@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdio.h>
-#include <raylib.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <star.hpp>
 #include <physics.hpp>
@@ -12,7 +12,7 @@ class Simulation {
 
         Simulation();
         ~Simulation();
-        void Draw(Vector2 originPosition);
+        void Draw(sf::Vector2f originPosition);
         void Update(float deltaTime);
         void HandleInput();
     private:

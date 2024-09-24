@@ -1,12 +1,16 @@
 #pragma once
 
-#include <raylib.hpp>
+#include <SFML/System/Vector3.hpp>
 #include <math.h>
 
 class LinearAlgebra {
     public:
-        static Vector3 RotateAroundY(float angle, Vector3& vector);
-        static Vector3 RotateAroundX(float angle, Vector3& vector);
+        inline static sf::Vector3f Normalise(sf::Vector3f& vector) {
+            float length = sqrt(vector.x*vector.x + vector.y*vector.y + vector.z*vector.z);
+            return sf::Vector3f(vector.x/length, vector.y/length, vector.z/length);
+        }
+        static sf::Vector3f RotateAroundY(float angle, sf::Vector3f& vector);
+        static sf::Vector3f RotateAroundX(float angle, sf::Vector3f& vector);
     private:
         struct Matrix {
             float a11; float a12; float a13;
@@ -26,6 +30,6 @@ class LinearAlgebra {
             }
         };
 
-        static Vector3 DotProduct(Matrix matrix, Vector3& vector);
+        static sf::Vector3f DotProduct(Matrix matrix, sf::Vector3f& vector);
     
 };
