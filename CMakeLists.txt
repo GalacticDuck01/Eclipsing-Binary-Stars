@@ -6,11 +6,18 @@ project(${PROJECT_NAME} VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(${PROJECT_NAME})
-add_subdirectory(src)
-option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBS})
+set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
+
+# Recursively find all source files
+file(GLOB_RECURSE CPP_SOURCES "${SRC_DIR}/*.cpp")
+
+# Recursively find all header files
+file(GLOB_RECURSE HEADERS "${SRC_DIR}/*.hpp")
+
+# Add all source files to the project
+include_directories(${SRC_DIR})
+
+add_executable(${PROJECT_NAME} ${CPP_SOURCES} ${HPP_HEADERS})
 
 #######################
 # SFML
